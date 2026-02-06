@@ -1,0 +1,13 @@
+{
+  "name": "@monorepo/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "tailwindcss": "^3.4.16"
+  },
+  "exports": {
+    "./tailwind/tailwind.config": "./tailwind/tailwind.config.ts",
+    "./tailwind/globals.css": "./tailwind/globals.css"
+  }
+}

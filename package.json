@@ -1,0 +1,21 @@
+{
+  "name": "restaurant-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=pos-web",
+    "dev:pos": "npm run dev --workspace=pos-web",
+    "dev:admin": "npm run dev --workspace=admin-web",
+    "dev:client": "npm run dev --workspace=client-web",
+    "build": "turbo run build",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "^2.8.3"
+  },
+  "packageManager": "npm@10.5.0"
+}
