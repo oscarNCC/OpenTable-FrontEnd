@@ -38,3 +38,6 @@ export const MENU_BY_CATEGORY: Record<string, MenuItem[]> = MENU_CATEGORIES.redu
   },
   {} as Record<string, MenuItem[]>
 );
+
+/** Toppings for pizza customization */
+export const PIZZA_TOPPINGS: string[] = ['多起司', '辣腸', '蘑菇', '橄欖', '青椒', '洋蔥', '菠蘿', '羅勒'];
