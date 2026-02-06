@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { OrderRecord } from '../../shared/utils/api';
 import { api } from '../../shared/utils/api';
 import { MENU_ITEMS } from '../../data/menu';
+import { formatPizzaOptionsSummary } from './formatPizzaOptions';
 
 const menuById = Object.fromEntries(MENU_ITEMS.map((m) => [m.id, m]));
 
@@ -168,12 +169,19 @@ export function HistoryList({ refreshTrigger = 0, onSelectOrder, onSaved }: Hist
                   <ul className="order-card-expand-items">
                     {r.items
                       .filter((line) => line.qty > 0)
-                      .map((line) => (
-                        <li key={line.menuItemId} className="order-card-expand-item">
-                          <span className="order-card-expand-item-name">
-                            {menuById[line.menuItemId]?.name ?? line.menuItemId}
-                          </span>
-                          <span className="order-card-expand-item-qty">× {line.qty}</span>
+                      .map((line, idx) => (
+                        <li key={`${line.menuItemId}-${idx}`} className="order-card-expand-item">
+                          <div className="order-card-expand-item-main">
+                            <span className="order-card-expand-item-name">
+                              {menuById[line.menuItemId]?.name ?? line.menuItemId}
+                            </span>
+                            <span className="order-card-expand-item-qty">× {line.qty}</span>
+                          </div>
+                          {line.pizzaOptions && (
+                            <p className="order-card-expand-item-options">
+                              {formatPizzaOptionsSummary(line.pizzaOptions)}
+                            </p>
+                          )}
                         </li>
                       ))}
                   </ul>

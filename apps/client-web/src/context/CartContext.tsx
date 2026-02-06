@@ -1,15 +1,24 @@
 import { createContext, useContext, useCallback, useMemo, useState, type ReactNode } from 'react';
+import type { PizzaOptions } from '@monorepo/shared-types';
 import { MENU_ITEMS } from '../data/menu';
 
 export interface CartLine {
   menuItemId: string;
   qty: number;
+  /** @deprecated Prefer pizzaOptions */
   toppings?: string[];
+  pizzaOptions?: PizzaOptions;
+}
+
+function optionsKey(line: CartLine): string {
+  if (line.pizzaOptions) return JSON.stringify(line.pizzaOptions);
+  if (line.toppings?.length) return JSON.stringify(line.toppings);
+  return '';
 }
 
 interface CartContextValue {
   items: CartLine[];
-  addItem: (menuItemId: string, qty?: number, toppings?: string[]) => void;
+  addItem: (menuItemId: string, qty?: number, toppingsOrOptions?: string[] | PizzaOptions) => void;
   removeItem: (menuItemId: string) => void;
   setQty: (menuItemId: string, qty: number) => void;
   setQtyAtIndex: (index: number, qty: number) => void;
@@ -25,15 +34,20 @@ const menuById = Object.fromEntries(MENU_ITEMS.map((m) => [m.id, m]));
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartLine[]>([]);
 
-  const addItem = useCallback((menuItemId: string, qty = 1, toppings?: string[]) => {
+  const addItem = useCallback((menuItemId: string, qty = 1, toppingsOrOptions?: string[] | PizzaOptions) => {
+    const isPizzaOptions = toppingsOrOptions != null && !Array.isArray(toppingsOrOptions);
+    const pizzaOptions = isPizzaOptions ? (toppingsOrOptions as PizzaOptions) : undefined;
+    const toppings = Array.isArray(toppingsOrOptions) ? toppingsOrOptions : undefined;
+    const key = pizzaOptions ? JSON.stringify(pizzaOptions) : (toppings ? JSON.stringify(toppings) : '');
+
     setItems((prev) => {
-      const i = prev.findIndex((x) => x.menuItemId === menuItemId && JSON.stringify(x.toppings ?? []) === JSON.stringify(toppings ?? []));
+      const i = prev.findIndex((x) => x.menuItemId === menuItemId && optionsKey(x) === key);
       if (i >= 0) {
         const next = [...prev];
         next[i] = { ...next[i]!, qty: next[i]!.qty + qty };
         return next;
       }
-      return [...prev, { menuItemId, qty, toppings }];
+      return [...prev, { menuItemId, qty, ...(pizzaOptions ? { pizzaOptions } : toppings?.length ? { toppings } : {}) }];
     });
   }, []);
 

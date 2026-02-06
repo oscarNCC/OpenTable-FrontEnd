@@ -61,12 +61,14 @@ export interface User {
   restaurants: Restaurant[];
 }
 
+import type { PizzaOptions } from './menu';
+
 export interface CollectDataReq {
   restaurantId?: string;
   floorplanId?: string;
   tableId: string;
   diners: number;
-  items: { menuItemId: string; qty: number }[];
+  items: { menuItemId: string; qty: number; pizzaOptions?: PizzaOptions }[];
   profit: number;
   startTime: string;
   endTime?: string;

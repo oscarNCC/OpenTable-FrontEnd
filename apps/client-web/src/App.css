@@ -360,8 +360,21 @@ body {
   font-size: 14px;
 }
 
-.pizza-cart-line-name {
+.pizza-cart-line > div:first-child {
   flex: 1;
+  min-width: 0;
+}
+
+.pizza-cart-line-name {
+  display: block;
+  min-width: 0;
+}
+
+.pizza-cart-line-options {
+  margin: 0.2rem 0 0;
+  font-size: 12px;
+  color: var(--text-white);
+  opacity: 0.85;
   min-width: 0;
 }
 
@@ -693,4 +706,62 @@ body {
   padding: 1rem 1.25rem;
   border-top: 1px solid var(--glass-border);
   justify-content: flex-end;
+}
+
+.pizza-modal-panel-scroll {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pizza-modal-panel-scroll .pizza-modal-body {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.pizza-modal-section {
+  margin-bottom: 1.25rem;
+}
+
+.pizza-modal-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.pizza-modal-section .label {
+  margin-bottom: 0.5rem;
+}
+
+.pizza-modal-sub-options,
+.pizza-topping-levels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.pizza-modal-sub-label {
+  font-size: 12px;
+  opacity: 0.9;
+  margin: 0.5rem 0 0.25rem;
+  display: block;
+}
+
+.pizza-topping-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pizza-topping-chip.small {
+  padding: 0.25rem 0.5rem;
+  font-size: 12px;
+}
+
+.pizza-topping-chip.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }

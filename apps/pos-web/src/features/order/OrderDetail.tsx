@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { OrderRecord, OrderUpdateBody } from '../../shared/utils/api';
 import { api } from '../../shared/utils/api';
 import { MENU_ITEMS } from '../../data/menu';
+import { formatPizzaOptionsSummary } from './formatPizzaOptions';
 
 const TABLE_OPTIONS = [
   { id: 't1', name: '1 號枱' },
@@ -20,14 +21,6 @@ const STATUS_OPTIONS = [
 
 const menuIdToIndex = Object.fromEntries(MENU_ITEMS.map((m, i) => [m.id, i]));
 const menuById = Object.fromEntries(MENU_ITEMS.map((m) => [m.id, m]));
-
-const STATUS_LABELS: Record<string, string> = {
-  pending: '待處理',
-  confirmed: '已確認',
-  preparing: '製作中',
-  completed: '已完成',
-  cancelled: '已取消',
-};
 
 export interface OrderDetailProps {
   orderId: string | null;
@@ -193,6 +186,30 @@ export function OrderDetail({ orderId, onClose, onSaved }: OrderDetailProps) {
               <label>備註</label>
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} />
             </div>
+            {order.items.length > 0 && (
+              <div className="order-detail-field">
+                <label>訂單明細</label>
+                <ul className="order-detail-lines">
+                  {order.items
+                    .filter((line) => line.qty > 0)
+                    .map((line, idx) => (
+                      <li key={`${line.menuItemId}-${idx}`} className="order-detail-line">
+                        <div className="order-detail-line-main">
+                          <span className="order-detail-line-name">
+                            {menuById[line.menuItemId]?.name ?? line.menuItemId}
+                          </span>
+                          <span className="order-detail-line-qty">× {line.qty}</span>
+                        </div>
+                        {line.pizzaOptions && (
+                          <p className="order-detail-line-options">
+                            {formatPizzaOptionsSummary(line.pizzaOptions)}
+                          </p>
+                        )}
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
             <div className="order-detail-field">
               <label>品項</label>
               <ul className="order-detail-items">

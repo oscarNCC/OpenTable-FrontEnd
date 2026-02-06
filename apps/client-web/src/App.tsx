@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import type { MenuItem } from '@monorepo/shared-types';
+import type { MenuItem, PizzaOptions } from '@monorepo/shared-types';
 import { CartProvider } from './context/CartContext';
 import { MenuShowcase } from './features/order/MenuShowcase';
 import { CustomizationModal } from './components/ui/CustomizationModal';
@@ -7,15 +7,15 @@ import './App.css';
 
 function App() {
   const [customizingItem, setCustomizingItem] = useState<MenuItem | null>(null);
-  const pendingConfirmRef = useRef<(toppings: string[]) => void>(() => {});
+  const pendingConfirmRef = useRef<(options: PizzaOptions) => void>(() => {});
 
-  const handleCustomizePizza = (item: MenuItem, onConfirm: (toppings: string[]) => void) => {
+  const handleCustomizePizza = (item: MenuItem, onConfirm: (options: PizzaOptions) => void) => {
     pendingConfirmRef.current = onConfirm;
     setCustomizingItem(item);
   };
 
-  const handleModalConfirm = (toppings: string[]) => {
-    pendingConfirmRef.current(toppings);
+  const handleModalConfirm = (options: PizzaOptions) => {
+    pendingConfirmRef.current(options);
     setCustomizingItem(null);
   };
 

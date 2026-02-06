@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { MenuItem } from '@monorepo/shared-types';
+import type { MenuItem, PizzaOptions } from '@monorepo/shared-types';
 import { useCart } from '../../context/CartContext';
 import { MENU_CATEGORIES, MENU_BY_CATEGORY } from '../../data/menu';
 import { GlassCard } from '../../components/ui/GlassCard';
@@ -13,7 +13,7 @@ import type { CartLine } from '../../context/CartContext';
 const PIZZA_CATEGORY = '披薩';
 
 interface MenuShowcaseProps {
-  onCustomizePizza?: (item: MenuItem, onConfirm: (toppings: string[]) => void) => void;
+  onCustomizePizza?: (item: MenuItem, onConfirm: (options: PizzaOptions) => void) => void;
 }
 
 export function MenuShowcase({ onCustomizePizza }: MenuShowcaseProps) {
@@ -26,8 +26,8 @@ export function MenuShowcase({ onCustomizePizza }: MenuShowcaseProps) {
 
   const handleAddToCart = (item: MenuItem) => {
     if (item.category === PIZZA_CATEGORY && onCustomizePizza) {
-      onCustomizePizza(item, (toppings) => {
-        addItem(item.id, 1, toppings);
+      onCustomizePizza(item, (options) => {
+        addItem(item.id, 1, options);
       });
     } else {
       addItem(item.id, 1);
@@ -44,7 +44,11 @@ export function MenuShowcase({ onCustomizePizza }: MenuShowcaseProps) {
       const payload = {
         tableId,
         diners: 1,
-        items: items.map((line: CartLine) => ({ menuItemId: line.menuItemId, qty: line.qty })),
+        items: items.map((line: CartLine) => ({
+          menuItemId: line.menuItemId,
+          qty: line.qty,
+          ...(line.pizzaOptions && { pizzaOptions: line.pizzaOptions }),
+        })),
         profit,
         startTime: new Date().toISOString(),
       };

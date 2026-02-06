@@ -1,5 +1,6 @@
 import { useCart } from '../../context/CartContext';
 import { MENU_ITEMS } from '../../data/menu';
+import { formatPizzaOptionsSummary } from '../../data/pizzaOptions';
 import { PromoBanner } from './PromoBanner';
 import { OrderHistory } from './OrderHistory';
 
@@ -27,7 +28,12 @@ export function CartPanel({ onCheckout, isSubmitting, error }: CartPanelProps) {
               const menuItem = menuById[line.menuItemId];
               return (
                 <li key={`${line.menuItemId}-${idx}`} className="pizza-cart-line">
-                  <span className="pizza-cart-line-name">{menuItem?.name ?? line.menuItemId}</span>
+                  <div>
+                    <span className="pizza-cart-line-name">{menuItem?.name ?? line.menuItemId}</span>
+                    {line.pizzaOptions && (
+                      <p className="pizza-cart-line-options">{formatPizzaOptionsSummary(line.pizzaOptions)}</p>
+                    )}
+                  </div>
                   <div className="pizza-cart-line-controls">
                     <button
                       type="button"
