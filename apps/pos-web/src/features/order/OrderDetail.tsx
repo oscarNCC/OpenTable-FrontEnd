@@ -19,6 +19,15 @@ const STATUS_OPTIONS = [
 ];
 
 const menuIdToIndex = Object.fromEntries(MENU_ITEMS.map((m, i) => [m.id, i]));
+const menuById = Object.fromEntries(MENU_ITEMS.map((m) => [m.id, m]));
+
+const STATUS_LABELS: Record<string, string> = {
+  pending: '待處理',
+  confirmed: '已確認',
+  preparing: '製作中',
+  completed: '已完成',
+  cancelled: '已取消',
+};
 
 export interface OrderDetailProps {
   orderId: string | null;
@@ -121,7 +130,7 @@ export function OrderDetail({ orderId, onClose, onSaved }: OrderDetailProps) {
       <div className="order-detail-backdrop" onClick={onClose} aria-hidden="true" />
       <div className="order-detail-panel">
         <div className="order-detail-header">
-          <h2 id="order-detail-title">訂單詳情 · 編輯</h2>
+          <h2 id="order-detail-title">訂單詳情</h2>
           <button type="button" className="order-detail-close" onClick={onClose} aria-label="關閉">
             ×
           </button>
