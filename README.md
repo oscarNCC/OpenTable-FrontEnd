@@ -4,6 +4,8 @@ Monorepo for the OpenTable restaurant apps: customer ordering, POS (point of sal
 
 ### APP
 
+#### Client Web (Client Website)
+
 ![Client Web](git_pic/client-web.png)
 ![Pizza Options](git_pic/client-web-pizza_option.png)
 
