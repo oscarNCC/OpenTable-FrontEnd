@@ -10,7 +10,7 @@ import { CartPanel } from './components/layout/CartPanel';
 import { collectData, getTableIdFromContext } from '../../shared/api';
 import type { CartLine } from './context/CartContext';
 
-const PIZZA_CATEGORY = '披薩';
+const PIZZA_CATEGORY = 'Pizza';
 
 interface MenuShowcaseProps {
   onCustomizePizza?: (item: MenuItem, onConfirm: (options: PizzaOptions) => void) => void;
