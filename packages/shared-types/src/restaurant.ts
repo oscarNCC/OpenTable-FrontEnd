@@ -54,10 +54,15 @@ export interface Reservation {
   status: 'confirmed' | 'seated' | 'no-show';
 }
 
+export type UserRole = 'admin' | 'staff' | 'client';
+
 export interface User {
   id: string;
   name: string;
   email?: string;
+  role: UserRole;
+  address?: string;
+  postalCode?: string;
   restaurants: Restaurant[];
 }
 
@@ -67,6 +72,7 @@ export interface CollectDataReq {
   restaurantId?: string;
   floorplanId?: string;
   tableId: string;
+  userId?: string;
   diners: number;
   items: { menuItemId: string; qty: number; pizzaOptions?: PizzaOptions }[];
   profit: number;

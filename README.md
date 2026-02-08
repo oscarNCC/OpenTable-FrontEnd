@@ -7,6 +7,7 @@ Monorepo for the OpenTable restaurant apps: customer ordering, POS (point of sal
 ```
 OpenTable-FrontEnd/
 ├── apps/
+│   ├── web          # 單一 SPA：登入後依角色進 admin / pos / client
 │   ├── client-web   # Customer ordering (dine-in / table)
 │   ├── pos-web      # POS: view & edit customer orders
 │   └── admin-web    # Admin: dashboard, restaurants, auth
@@ -23,8 +24,9 @@ OpenTable-FrontEnd/
 
 | App | Purpose |
 |-----|---------|
+| **web** | 單一入口：登入頁 → 依角色導向 admin / pos / client。預設 `npm run dev` 啟動此 app。 |
 | **client-web** | Customers place orders (menu, table, submit). Sends orders to the backend. |
-| **pos-web** | Staff view customer orders, edit details (table, items, status, notes), and use quick actions (complete ✓, cancel ✗, edit). Includes nav bar, footer, and card layout. |
+| **pos-web** | Staff view customer orders, edit details (table, items, status, notes), and use quick actions. |
 | **admin-web** | Admin dashboard, restaurant management, auth, and data preview. |
 
 ## Tech stack
@@ -45,7 +47,8 @@ From the repo root:
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start **pos-web** dev server (default) |
+| `npm run dev` | Start **web** (unified SPA with login) — 預設 |
+| `npm run dev:web` | Start web |
 | `npm run dev:pos` | Start pos-web |
 | `npm run dev:client` | Start client-web |
 | `npm run dev:admin` | Start admin-web |
@@ -61,7 +64,14 @@ From the repo root:
 - **GET** `/api/data/orders/:id` — get one order
 - **PATCH** `/api/data/orders/:id` — update order (e.g. status, items)
 
-Set the API base URL with `VITE_API_BASE_URL` (e.g. in `.env.development`). Default is `http://localhost:3001`. See each app’s `.env.development.example` if present.
+Set the API base URL with `VITE_API_URL` (e.g. in `.env.development`). Default is `http://localhost:3001`. See each app’s `.env.development.example` if present.
+
+## How to test (登入與角色導向)
+
+1. **後端**：在 `OpenTable-BackEnd` 設定 `.env`（含 `DATABASE_URL`、`JWT_SECRET`），執行 `npm run db:migrate`、`npm run db:seed`，再 `npm run dev`。
+2. **前端**：在專案根目錄執行 `npm run dev`，瀏覽器打開 http://localhost:5173。
+3. **登入**：會進入 `/login`，使用測試帳號：**admin** `admin@example.com` / **staff** `staff@example.com` / **client** `client@example.com`，密碼皆為 `password123`，登入後會分別導向 `/admin`、`/pos`、`/client`。
+4. 登出後會回到 `/login`，可換帳號再測不同角色。
 
 ## Docs
 

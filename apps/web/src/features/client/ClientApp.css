@@ -1,0 +1,139 @@
+/* Client (pizza) design - scoped under .client-app */
+.client-app {
+  --bg-black: #0d0d0d;
+  --panel-dark: #1a1515;
+  --panel-solid: #2a2525;
+  --card-bg: #252020;
+  --btn-bg: #3d3535;
+  --btn-bg-hover: #4a4040;
+  --text-white: #ffffff;
+  --accent-red: #e63946;
+  --accent-orange: #ff6b35;
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --font-heading: "Playfair Display", serif;
+  --font-body: "Montserrat", sans-serif;
+  --radius-card: 16px;
+  --radius-btn: 12px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  background: var(--bg-black) !important;
+  color: var(--text-white) !important;
+}
+
+.client-app h1 { font-family: var(--font-heading); font-size: 36px; font-weight: 700; color: var(--text-white) !important; margin: 0; }
+.client-app h2 { font-family: var(--font-body); font-size: 24px; font-weight: 600; color: var(--text-white) !important; margin: 0 0 1rem; }
+.client-app .label { font-size: 14px; font-weight: 500; color: var(--text-white); }
+.client-app a,
+.client-app button,
+.client-app span,
+.client-app p { color: inherit; }
+.client-app .pizza-main { background: var(--bg-black); color: var(--text-white); }
+
+.pizza-layout { display: grid; grid-template-columns: 1fr; grid-template-rows: auto 1fr; grid-template-areas: "header" "content"; min-height: 100%; flex: 1; background: var(--bg-black); color: var(--text-white); }
+.pizza-header { grid-area: header; background: var(--panel-dark); border-bottom: 2px solid var(--accent-red); padding: 0.75rem 1rem; padding-top: max(0.75rem, env(safe-area-inset-top)); color: var(--text-white); }
+.pizza-layout-content { grid-area: content; display: flex; flex-direction: column; min-height: 0; background: var(--bg-black); color: var(--text-white); }
+.pizza-header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+.pizza-header-title { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--text-white); margin: 0; }
+.pizza-header-right { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.pizza-header-summary { display: flex; align-items: center; gap: 1rem; font-size: 14px; color: var(--text-white); }
+.pizza-loyalty { display: flex; align-items: baseline; gap: 0.35rem; font-size: 14px; }
+.pizza-loyalty-label { color: var(--text-white); opacity: 0.9; }
+.pizza-loyalty-value { font-weight: 700; color: var(--accent-orange); }
+.pizza-promo-banner { padding: 0.5rem 0.75rem; margin-bottom: 1rem; background: var(--accent-orange); color: var(--text-white); font-size: 14px; font-weight: 600; border-radius: var(--radius-btn); }
+.pizza-promo-text { display: block; }
+.pizza-order-history { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border); }
+.pizza-order-history-title { font-size: 14px; font-weight: 600; margin: 0 0 0.5rem; color: var(--text-white); }
+.pizza-order-history-table-wrap { overflow-x: auto; }
+.pizza-order-history-table { width: 100%; border-collapse: collapse; font-size: 12px; color: var(--text-white); }
+.pizza-order-history-table th, .pizza-order-history-table td { padding: 0.35rem 0.5rem; text-align: left; border-bottom: 1px solid var(--glass-border); }
+.pizza-order-history-table th { font-weight: 600; opacity: 0.9; }
+.pizza-hot-badge { position: absolute; top: 0.75rem; right: 0.75rem; padding: 0.25rem 0.5rem; font-size: 12px; font-weight: 700; background: var(--accent-orange); color: var(--text-white); border-radius: 6px; box-shadow: 0 0 12px rgba(255, 107, 53, 0.5); }
+.pizza-header-ticker { font-weight: 600; }
+.pizza-header-eta { color: var(--accent-orange); }
+.pizza-body { display: grid; grid-template-columns: 1fr; grid-template-areas: "main"; flex: 1; min-height: 0; }
+.pizza-sidebar { display: none; }
+.pizza-main { grid-area: main; overflow: auto; padding: 1rem; max-width: 1200px; margin: 0 auto; width: 100%; background: var(--panel-dark); color: var(--text-white); }
+.pizza-cart-panel { display: none; }
+.pizza-cart-footer-mobile { position: sticky; bottom: 0; left: 0; right: 0; padding: 1rem; padding-bottom: max(1rem, env(safe-area-inset-bottom)); background: var(--panel-dark); border-top: 1px solid var(--glass-border); display: flex; flex-direction: column; gap: 0.5rem; }
+.pizza-cart-footer-mobile .pizza-cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; }
+.pizza-cart-footer-mobile .pizza-btn-primary { width: 100%; }
+@media (min-width: 768px) {
+  .pizza-body { grid-template-columns: 200px 1fr 280px; grid-template-areas: "sidebar main cart"; }
+  .pizza-sidebar { display: block; grid-area: sidebar; background: var(--panel-dark); border-right: 1px solid var(--glass-border); padding: 1rem 0; }
+  .pizza-cart-panel { display: block; grid-area: cart; background: var(--panel-dark); border-left: 1px solid var(--glass-border); overflow: auto; }
+  .pizza-cart-inner { padding: 1rem; position: sticky; top: 0; }
+  .pizza-cart-footer-mobile { display: none; }
+}
+@media (min-width: 1024px) { .pizza-body { grid-template-columns: 200px 1fr 320px; } }
+.pizza-sidebar-nav { display: flex; flex-direction: column; gap: 0.25rem; }
+.pizza-sidebar-btn { padding: 0.625rem 1rem; border: none; background: var(--btn-bg); color: var(--text-white); font-family: var(--font-body); font-size: 14px; font-weight: 500; text-align: left; cursor: pointer; border-radius: var(--radius-btn); transition: background 0.2s, color 0.2s; border: 1px solid var(--glass-border); }
+.pizza-sidebar-btn:hover { background: var(--btn-bg-hover); }
+.pizza-sidebar-btn.active { background: var(--accent-red); color: var(--text-white); border-color: var(--accent-red); }
+.pizza-cart-title { font-size: 24px; font-weight: 600; margin: 0 0 1rem; color: var(--text-white); }
+.pizza-cart-empty { color: var(--text-white); opacity: 0.8; font-size: 14px; margin: 0; }
+.pizza-cart-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+.pizza-cart-line { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid var(--glass-border); font-size: 14px; }
+.pizza-cart-line > div:first-child { flex: 1; min-width: 0; }
+.pizza-cart-line-name { display: block; min-width: 0; }
+.pizza-cart-line-options { margin: 0.2rem 0 0; font-size: 12px; color: var(--text-white); opacity: 0.85; min-width: 0; }
+.pizza-cart-line-controls { display: flex; align-items: center; gap: 0.25rem; }
+.pizza-cart-qty-btn { width: 28px; height: 28px; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-white); border-radius: 6px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.pizza-cart-qty-btn:hover { background: var(--accent-red); border-color: var(--accent-red); }
+.pizza-cart-qty-value { min-width: 1.5rem; text-align: center; }
+.pizza-cart-line-price { font-weight: 600; color: var(--accent-orange); }
+.pizza-cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-white); }
+.pizza-cart-error { margin: 0 0 0.5rem; font-size: 14px; color: var(--accent-orange); }
+.pizza-btn-primary { padding: 0.75rem 1.25rem; border: none; border-radius: var(--radius-btn); background: var(--accent-red); color: var(--text-white); font-family: var(--font-body); font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); transition: transform 0.2s, box-shadow 0.2s; }
+.pizza-btn-primary:hover:not(:disabled) { transform: scale(1.02); box-shadow: 3px 3px 12px rgba(255, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15); }
+.pizza-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.pizza-btn-primary:focus-visible, .pizza-btn-secondary:focus-visible, .pizza-sidebar-btn:focus-visible, .pizza-menu-tab:focus-visible, .pizza-topping-chip:focus-visible, .pizza-cart-qty-btn:focus-visible, .pizza-modal-close:focus-visible { outline: 2px solid var(--text-white); outline-offset: 2px; }
+.pizza-menu-tabs-mobile { display: flex; gap: 0.5rem; margin-bottom: 1rem; overflow-x: auto; padding: 0.25rem 0; }
+@media (min-width: 768px) { .pizza-menu-tabs-mobile { display: none; } }
+.pizza-menu-tab { flex-shrink: 0; padding: 0.5rem 1rem; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-white); font-family: var(--font-body); font-size: 14px; font-weight: 500; border-radius: var(--radius-btn); cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+.pizza-menu-tab:hover { background: var(--btn-bg-hover); }
+.pizza-menu-tab.active { background: var(--accent-red); border-color: var(--accent-red); }
+.pizza-menu-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 600px) { .pizza-menu-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .pizza-menu-grid { grid-template-columns: repeat(3, 1fr); } }
+.pizza-glass-card { position: relative; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-card); padding: 1rem; transition: transform 0.25s, box-shadow 0.25s; color: var(--text-white); }
+.pizza-glass-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); }
+.pizza-glass-card--highlight { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
+.pizza-glass-card--highlight:hover { box-shadow: 0 0 24px rgba(255, 107, 53, 0.5); }
+.pizza-menu-card { position: relative; display: flex; flex-direction: column; gap: 0.75rem; color: var(--text-white); }
+.pizza-menu-card-image-wrap { position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--radius-card); overflow: hidden; background: var(--panel-dark); }
+.pizza-menu-card:hover .pizza-menu-card-image-wrap img { transform: rotate(-2deg) scale(1.02); }
+.pizza-menu-card-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.25s; }
+.pizza-menu-card-info { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.pizza-menu-card-name { font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--text-white) !important; }
+.pizza-menu-card-price { font-size: 16px; font-weight: 600; color: var(--accent-orange) !important; }
+.pizza-btn-add { width: 100%; }
+.pizza-btn-secondary { padding: 0.75rem 1.25rem; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-white); font-family: var(--font-body); font-size: 16px; font-weight: 600; border-radius: var(--radius-btn); cursor: pointer; transition: background 0.2s; }
+.pizza-btn-secondary:hover { background: var(--btn-bg-hover); }
+.pizza-modal-overlay { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.pizza-modal-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.8); }
+.pizza-modal-panel { position: relative; background: var(--panel-solid); border: 1px solid var(--glass-border); border-radius: var(--radius-card); max-width: 420px; width: 100%; max-height: 90vh; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; overflow: hidden; }
+.pizza-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; background: var(--panel-solid); color: var(--text-white); }
+.pizza-modal-title { font-family: var(--font-body); font-size: 20px; font-weight: 600; color: var(--text-white); margin: 0; }
+.pizza-modal-close { border: none; background: var(--btn-bg); color: var(--text-white); font-size: 1.5rem; line-height: 1; cursor: pointer; padding: 0.25rem 0.5rem; border-radius: var(--radius-btn); }
+.pizza-modal-close:hover { background: var(--btn-bg-hover); }
+.pizza-modal-body { padding: 1.25rem; overflow-y: auto; overflow-x: hidden; flex: 1; min-height: 0; -webkit-overflow-scrolling: touch; background: var(--panel-solid); color: var(--text-white); }
+.pizza-modal-body .label { margin: 0 0 0.75rem; color: var(--text-white); }
+.pizza-modal-toppings { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pizza-topping-chip { padding: 0.5rem 0.75rem; border: 1px solid var(--glass-border); background: var(--btn-bg); color: var(--text-white); font-family: var(--font-body); font-size: 14px; border-radius: var(--radius-btn); cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+.pizza-topping-chip:hover { background: var(--btn-bg-hover); }
+.pizza-topping-chip.active { background: var(--accent-red); border-color: var(--accent-red); }
+.pizza-modal-footer { display: flex; gap: 0.75rem; padding: 1rem 1.25rem; border-top: 1px solid var(--glass-border); justify-content: flex-end; flex-shrink: 0; background: var(--panel-solid); }
+.pizza-modal-panel-scroll { max-height: 90vh; display: flex; flex-direction: column; }
+.pizza-modal-panel-scroll .pizza-modal-body { overflow-y: auto; flex: 1; min-height: 0; }
+.pizza-modal-section { margin-bottom: 1.25rem; padding: 0.75rem; border-radius: var(--radius-btn); background: var(--card-bg); border: 1px solid var(--glass-border); }
+.pizza-modal-section:last-of-type { margin-bottom: 0; }
+.pizza-modal-section .label { margin-bottom: 0.5rem; color: var(--text-white); }
+.pizza-modal-sub-options, .pizza-topping-levels { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
+.pizza-modal-sub-label { font-size: 12px; opacity: 0.9; margin: 0.5rem 0 0.25rem; display: block; color: var(--text-white); }
+.pizza-topping-row { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
+.pizza-topping-chip.small { padding: 0.25rem 0.5rem; font-size: 12px; }
+.pizza-topping-chip.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }

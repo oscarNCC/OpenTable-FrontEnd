@@ -7,7 +7,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=pos-web",
+    "dev": "npm run dev --workspace=web",
+    "dev:web": "npm run dev --workspace=web",
     "dev:pos": "npm run dev --workspace=pos-web",
     "dev:admin": "npm run dev --workspace=admin-web",
     "dev:client": "npm run dev --workspace=client-web",
